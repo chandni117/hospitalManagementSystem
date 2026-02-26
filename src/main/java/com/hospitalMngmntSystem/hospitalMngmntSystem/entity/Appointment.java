@@ -3,7 +3,11 @@ package com.hospitalMngmntSystem.hospitalMngmntSystem.entity;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Appointment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDateTime appointmentTime;
@@ -22,8 +27,11 @@ public class Appointment {
 
     private String status;
 
-    // @ForeignKey(value = "id")
-    // private Patient patientId;
+    @ManyToOne      //Many appointment to One patient
+    @JoinColumn(name = "patient_id", nullable = false)      //owning side
+    private Patient patient;
 
-    // private Doctor doctorId;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Doctor doctor;
 }

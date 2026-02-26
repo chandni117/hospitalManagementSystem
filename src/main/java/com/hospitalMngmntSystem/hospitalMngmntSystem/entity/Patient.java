@@ -14,6 +14,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,11 +45,11 @@ public class Patient {
     private LocalDateTime createdAt;
 
     @OneToOne
-    // @JoinColumn(name = "id")
-    private Insurance insurance;
+    @JoinColumn(name = "patient_insurance_id") 
+    private Insurance insurance;                //owning side
 
-    // @OneToMany(mappedBy = "Patient")
-    // private List<Appointment> appointments;
+    @OneToMany(mappedBy = "patient")
+    private List<Appointment> appointments;
 
 
 
