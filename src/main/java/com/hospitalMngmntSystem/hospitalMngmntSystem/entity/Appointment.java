@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +33,7 @@ public class Appointment {
     @JoinColumn(name = "patient_id", nullable = false)      //owning side
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne //In manyToOne usually cascading is not defined because we don't want whether appointment created their must be patient created
     @JoinColumn(nullable = false)
     private Doctor doctor;
 }
