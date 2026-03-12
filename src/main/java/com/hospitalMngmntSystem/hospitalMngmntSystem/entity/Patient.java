@@ -15,6 +15,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -50,12 +51,12 @@ public class Patient {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
     @JoinColumn(name = "patient_insurance_id")
     @JsonManagedReference 
     private Insurance insurance;                //owning side
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE, orphanRemoval = true)  
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)  
     @ToString.Exclude             //showing lazy fetching error two ways to resolve whether define tostring.exclude or fetchType.lazy
     private List<Appointment> appointments = new ArrayList<>();
 

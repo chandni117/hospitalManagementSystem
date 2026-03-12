@@ -37,5 +37,14 @@ public class AppointmentService {
 
 
     }
+    @Transactional
+    public Appointment reAssignAppointmentToNewDoctor(Long appointmentId, Long doctorId){
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
+        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
 
+        //owning side is appointment
+        appointment.setDoctor(doctor); //this will automatically update doctor in assign entity because it is dirty.
+        doctor.getAppointments().add(appointment); //just for bidirectional
+        return appointment;
+    }
 }

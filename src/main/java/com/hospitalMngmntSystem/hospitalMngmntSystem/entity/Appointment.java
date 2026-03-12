@@ -33,7 +33,7 @@ public class Appointment {
     @JoinColumn(name = "patient_id", nullable = false)      //owning side
     private Patient patient;
 
-    @ManyToOne //In manyToOne usually cascading is not defined because we don't want whether appointment created their must be patient created
+    @ManyToOne //In manyToOne usually cascading is not defined because we don't want if appointment created their must be patient created
     @JoinColumn(nullable = false)
     private Doctor doctor;
 }

@@ -33,6 +33,8 @@ public class InsuranceTests {
 
         Patient patient = insuranceService.assignInsuranceToPatient(insurance, 1L);
         System.out.println(patient.getInsurance());
+
+        insuranceService.disAssociateInsuranceFromParent(patient.getId());
     }
 
     @Test
@@ -41,10 +43,14 @@ public class InsuranceTests {
         Appointment appointment = Appointment.builder()
             .appointmentTime(LocalDateTime.of(2025, 10, 12, 14, 30))
             .reason("Sugar")
+            .status("Not good")
             .build();
 
         var newAppointment = appointmentService.createNewAppointment(appointment, 2L,1L);
-        System.out.println(newAppointment);
+
+        appointmentService.reAssignAppointmentToNewDoctor(newAppointment.getId(), 2L);
+        
     }
+
 
 }
