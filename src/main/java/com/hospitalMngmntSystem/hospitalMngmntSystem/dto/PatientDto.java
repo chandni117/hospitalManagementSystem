@@ -34,6 +34,6 @@ public class PatientDto {
 
     private LocalDateTime createdAt;
 
-    private Insurance patient_insurance_id;                //owning side
+    private Insurance insurance;                //owning side
 
 }

@@ -42,8 +42,8 @@ public class Patient {
 
     private LocalDate birthDate;
 
-    @Column(name = "email")
-    private String mail;
+   // @Column(name = "email")
+    private String email;
 
     @Enumerated(value = EnumType.STRING)
     private BloogGroupType bloodGroup;
@@ -52,7 +52,7 @@ public class Patient {
     private LocalDateTime createdAt;
 
     @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @JoinColumn(name = "patient_insurance_id")
+    @JoinColumn()
     @JsonManagedReference
     private Insurance insurance;                //owning side
 

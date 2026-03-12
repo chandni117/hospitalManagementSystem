@@ -3,6 +3,7 @@ package com.hospitalMngmntSystem.hospitalMngmntSystem.service;
 import com.hospitalMngmntSystem.hospitalMngmntSystem.dto.PatientDto;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,8 @@ public class PatientService {
     private final PatientRepository patientRepository;
 
     private final ModelMapper modelMapper;
-    @Cacheable("patient")
+    @Cacheable(value = "patient", key = "#patientId")
+    @CachePut(value = "patient", key = "#patientId")
     public PatientDto getPatientById(Long patientId) {
         Patient patient = patientRepository.findById(patientId)
                             .orElseThrow(() -> new EntityNotFoundException("Patient not found with id"));
@@ -31,7 +33,7 @@ public class PatientService {
     public PatientDto updatePatientById(Long patientId, PatientDto patientDto){
         Patient p = patientRepository.findById(patientId).orElseThrow();
         p.setGender(patientDto.getGender());
-        p.setMail(patientDto.getEmail());
+        p.setEmail(patientDto.getEmail());
         p.setName(patientDto.getName());
         p.setBirthDate(patientDto.getBirthDate());
         return modelMapper.map(p, PatientDto.class);
