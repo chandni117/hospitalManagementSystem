@@ -1,5 +1,8 @@
 package com.hospitalMngmntSystem.hospitalMngmntSystem.service;
 
+import com.hospitalMngmntSystem.hospitalMngmntSystem.dto.PatientDto;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +17,23 @@ import lombok.RequiredArgsConstructor;
 public class PatientService {
 
     private final PatientRepository patientRepository;
+
+    private final ModelMapper modelMapper;
     @Cacheable("patient")
-    public Patient getPatientById(Long patientId) {
-        Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new EntityNotFoundException("Patient not found with id"));
+    public PatientDto getPatientById(Long patientId) {
+        Patient patient = patientRepository.findById(patientId)
+                            .orElseThrow(() -> new EntityNotFoundException("Patient not found with id"));
 
         System.out.println(patient);
-        return patient;
+        return modelMapper.map(patient, PatientDto.class);
+    }
+    @Transactional
+    public PatientDto updatePatientById(Long patientId, PatientDto patientDto){
+        Patient p = patientRepository.findById(patientId).orElseThrow();
+        p.setGender(patientDto.getGender());
+        p.setMail(patientDto.getEmail());
+        p.setName(patientDto.getName());
+        p.setBirthDate(patientDto.getBirthDate());
+        return modelMapper.map(p, PatientDto.class);
     }
 }

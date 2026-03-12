@@ -1,14 +1,13 @@
 package com.hospitalMngmntSystem.hospitalMngmntSystem.controller;
 
+import com.hospitalMngmntSystem.hospitalMngmntSystem.dto.PatientDto;
 import com.hospitalMngmntSystem.hospitalMngmntSystem.entity.Patient;
 import com.hospitalMngmntSystem.hospitalMngmntSystem.service.CacheInspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.hospitalMngmntSystem.hospitalMngmntSystem.service.PatientService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -24,14 +23,17 @@ public class PatientController {
     }
 
     @GetMapping("/{id}")
-    public Patient getPatientById(@PathVariable("id") Long patientId) {
-
-        Patient p =  patientService.getPatientById(patientId);
-        return p;
+    public ResponseEntity<PatientDto> getPatientById(@PathVariable("id") Long patientId) {
+        return ResponseEntity.ok(patientService.getPatientById(patientId));
     }
     @GetMapping("/cacheData")
     public void getCacheData(){
         cacheInspectionService.printCacheContents("patient");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PatientDto> updatePatientById(@PathVariable("id") Long patientId, @RequestBody PatientDto patientDto){
+        return ResponseEntity.ok(patientService.updatePatientById(patientId, patientDto));
     }
 
 
